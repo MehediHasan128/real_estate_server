@@ -36,7 +36,58 @@ async function run() {
 
 
 
-    
+    const userCollection = client.db('Real-estate').collection('users');
+
+
+
+
+
+
+    // Users related API
+
+    // Get All Users
+    app.get('/users', async(req, res)=>{
+        const result = await userCollection.find().toArray();
+        res.send(result);
+    })
+    // get specifiq user
+    app.get('/users/:email', async(req, res) =>{
+      const Email = req.params.email;
+      const query = {userEmail: Email}
+      const result = await userCollection.findOne(query)
+      res.send(result)
+    })
+    // Users role
+    app.get('/users/role/:email', async(req, res) =>{
+      const email = req.params.email;
+      const query = {userEmail: email};
+      const options = {
+        projection: { userRole: 1},
+      };
+      const result = await userCollection.findOne(query, options);
+      const userRole = result.userRole;
+      res.send({userRole});
+    })
+    // Stored User Info
+    app.post('/users', async(req, res) =>{
+        const user = req.body;
+        console.log(user);
+        const result = await userCollection.insertOne(user);
+        res.send(result)
+    })
+    // add user photoURL
+    app.patch('/users/:email', async(req, res) =>{
+      const Email = req.params.email;
+      const query = {userEmail: Email};
+      const url = req.body;
+      const updatedDoc = {
+        $set: {
+          profilePicture: url.userPhoto
+        }
+      };
+      const result = await userCollection.updateOne(query, updatedDoc)
+      res.send(result)
+    })
 
 
 
