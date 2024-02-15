@@ -98,6 +98,14 @@ async function run() {
       const result = await propertyCollection.insertOne(property);
       res.send(result);
     })
+    // Get user specific property
+    app.get('/properties', async(req, res) =>{
+      const email = req.query.email;
+      console.log(email);
+      const query = {  ownerEmail: email }
+      const result = await propertyCollection.find(query).toArray();
+      res.send(result);
+    })
 
 
 
