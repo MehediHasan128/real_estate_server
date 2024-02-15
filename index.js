@@ -37,6 +37,7 @@ async function run() {
 
 
     const userCollection = client.db('Real-estate').collection('users');
+    const propertyCollection = client.db('Real-estate').collection('properties')
 
 
 
@@ -87,6 +88,15 @@ async function run() {
       };
       const result = await userCollection.updateOne(query, updatedDoc)
       res.send(result)
+    })
+
+
+
+    // Add Properties
+    app.post('/properties', async(req, res) =>{
+      const property = req.body;
+      const result = await propertyCollection.insertOne(property);
+      res.send(result);
     })
 
 
