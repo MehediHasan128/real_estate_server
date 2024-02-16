@@ -106,6 +106,11 @@ async function run() {
       const result = await propertyCollection.find(query).toArray();
       res.send(result);
     })
+    // Get all Property
+    app.get('/allProperty', async(req, res) =>{
+      const result = await propertyCollection.find().toArray();
+      res.send(result);
+    })
 
 
 
