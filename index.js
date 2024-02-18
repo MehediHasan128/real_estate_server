@@ -134,6 +134,20 @@ async function run() {
       const result = await userCollection.findOne(query);
       res.send(result);
     })
+    // update user status
+    app.put('/user/:id', async(req, res) =>{
+      const id = req.params.id;
+      const filter = {_id: new ObjectId(id)};
+      const options = {upsert: true};
+      const updateStatus = req.body;
+      const update = {
+        $set: {
+          status: updateStatus.status
+        }
+      };
+      const result = await userCollection.updateOne(filter, update, options);
+      res.send(result);
+    })
 
 
 
