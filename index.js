@@ -69,6 +69,16 @@ async function run() {
       const userRole = result.userRole;
       res.send({userRole});
     })
+    // Get user status
+    app.get('/users/:email', async(req, res) =>{
+      const email = req.params.email;
+      const query = {userEmail: email};
+      const options = {
+        projection: { status: 1},
+      };
+      const result = await userCollection.findOne(query, options);
+      res.send(result);
+    })
     // Stored User Info
     app.post('/users', async(req, res) =>{
         const user = req.body;
