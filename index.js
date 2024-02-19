@@ -91,6 +91,17 @@ async function run() {
 
 
 
+    // Get specific user
+    app.get('/property/:id', async(req, res) =>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)};
+      const result = await propertyCollection.findOne(query);
+      res.send(result);
+    })
+
+
+
+
     // Add Properties
     app.post('/properties', async(req, res) =>{
       const property = req.body;
@@ -148,6 +159,9 @@ async function run() {
       const result = await userCollection.updateOne(filter, update, options);
       res.send(result);
     })
+
+
+  
 
 
 
