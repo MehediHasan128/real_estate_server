@@ -37,7 +37,8 @@ async function run() {
 
 
     const userCollection = client.db('Real-estate').collection('users');
-    const propertyCollection = client.db('Real-estate').collection('properties')
+    const propertyCollection = client.db('Real-estate').collection('properties');
+    const clientCollection = client.db('Real-estate').collection('clients');
 
 
 
@@ -171,6 +172,21 @@ async function run() {
     })
 
 
+
+    // Buyer API
+    // Add buyer information
+    app.post('/clients', async(req, res) =>{
+      const information = req.body;
+      const id = information.propertyId
+      let query = {propertyId: id};
+      const isExist = await clientCollection.findOne(query)
+      if(!isExist){
+        const result = await clientCollection.insertOne(information);
+      res.send(result);
+      }else{
+        res.send('already added')
+      }
+    })
   
 
 
