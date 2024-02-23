@@ -125,6 +125,13 @@ async function run() {
       const query = {  ownerEmail: email }
       const result = await propertyCollection.find(query).toArray();
       res.send(result);
+    });
+    // get clients
+    app.get('/clients', async(req, res) =>{
+      const email = req.query.email;
+      const query = {ownerEmail: email};
+      const result = await clientCollection.find(query).toArray();
+      res.send(result)
     })
     // Get all Property
     app.get('/allProperty', async(req, res) =>{
@@ -177,8 +184,10 @@ async function run() {
     // Add buyer information
     app.post('/clients', async(req, res) =>{
       const information = req.body;
-      const id = information.propertyId
-      let query = {propertyId: id};
+      const id = information.propertyId;
+      const email = information.buyerEmail;
+      
+      const query = {propertyId: id, buyerEmail: email};
       const isExist = await clientCollection.findOne(query)
       if(!isExist){
         const result = await clientCollection.insertOne(information);
