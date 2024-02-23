@@ -133,6 +133,16 @@ async function run() {
       const result = await clientCollection.find(query).toArray();
       res.send(result)
     })
+    // get specfic client using property ID
+    app.get('/clients/:id', async(req, res) =>{
+      const id = req.params.id;
+      const query = {propertyId: id};
+      const option = {
+        sort: { "offerPrice": -1 },
+      }
+      const result = await clientCollection.find(query, option).toArray();
+      res.send(result);
+    })
     // Get all Property
     app.get('/allProperty', async(req, res) =>{
       const result = await propertyCollection.find().toArray();
