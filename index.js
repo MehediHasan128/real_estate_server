@@ -132,6 +132,16 @@ async function run() {
       const query = {ownerEmail: email};
       const result = await clientCollection.find(query).toArray();
       res.send(result)
+    });
+    //Recent Property
+    app.get('/recentProperty', async(req, res) =>{
+      const email = req.query.email;
+      const query = {ownerEmail: email}
+      const option = {
+        sort: {"publishDate": -1}
+      };
+      const result = await propertyCollection.find(query, option).toArray();
+      res.send(result);
     })
     // get specfic client using property ID
     app.get('/clients/:id', async(req, res) =>{
